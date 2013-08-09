@@ -154,7 +154,7 @@ struct lttng_ust_context {
 /*
  * Tracer channel attributes.
  */
-#define LTTNG_UST_CHANNEL_ATTR_PADDING	(LTTNG_UST_SYM_NAME_LEN + 32)
+#define LTTNG_UST_CHANNEL_ATTR_PADDING	(LTTNG_UST_SYM_NAME_LEN + 28)
 struct lttng_ust_channel_attr {
 	uint64_t subbuf_size;			/* bytes */
 	uint64_t num_subbuf;			/* power of 2 */
@@ -162,6 +162,8 @@ struct lttng_ust_channel_attr {
 	unsigned int switch_timer_interval;	/* usec */
 	unsigned int read_timer_interval;	/* usec */
 	enum lttng_ust_output output;		/* splice, mmap */
+	/* LTTng 2.3 padding limit */
+	int live_timer_interval;		/* usec */
 	char padding[LTTNG_UST_CHANNEL_ATTR_PADDING];
 } LTTNG_PACKED;
 
