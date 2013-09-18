@@ -469,6 +469,18 @@ static int client_stream_id(struct lttng_ust_lib_ring_buffer *buf,
 	*stream_id = header->stream_id;
 	return 0;
 }
+static int client_current_timestamp(struct lttng_ust_lib_ring_buffer *buf,
+		struct lttng_ust_shm_handle *handle,
+		uint64_t *ts)
+{
+	struct channel *chan;
+
+	chan = shmp(handle, handle->chan);
+	*ts = client_ring_buffer_clock_read(chan);
+
+	return 0;
+}
+
 static const
 struct lttng_ust_client_lib_ring_buffer_client_cb client_cb = {
 	.parent = {
@@ -486,6 +498,7 @@ struct lttng_ust_client_lib_ring_buffer_client_cb client_cb = {
 	.content_size = client_content_size,
 	.packet_size = client_packet_size,
 	.stream_id = client_stream_id,
+	.current_timestamp = client_current_timestamp,
 };
 
 static const struct lttng_ust_lib_ring_buffer_config client_config = {
